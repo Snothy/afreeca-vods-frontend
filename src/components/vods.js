@@ -16,7 +16,7 @@ class Vods extends React.Component {
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        fetch(`http://localhost:3001/api/streamers/${id}/vods`, {
+        fetch(`https://afreeca-backend.herokuapp.com/api/streamers/${id}/vods`, {
             method: "GET",
             headers: {
             }

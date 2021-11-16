@@ -28,7 +28,7 @@ class FetchButton extends React.Component {
         let cookie = this.context.cookie;
         cookie = {cookie: cookie};
         
-        fetch(`http://localhost:3001/api/streamers/${this.props.bj_id}/fetch`, {
+        fetch(`https://afreeca-backend.herokuapp.com/api/streamers/${this.props.bj_id}/fetch`, {
             method: "POST",
             body: JSON.stringify(cookie),
             headers: {

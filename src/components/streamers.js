@@ -16,7 +16,7 @@ class Streamers extends React.Component {
     }
 
     componentDidMount() {
-        fetch('http://localhost:3001/api/streamers/', {
+        fetch('https://afreeca-backend.herokuapp.com/api/streamers/', {
             method: "GET",
             headers: {
             }

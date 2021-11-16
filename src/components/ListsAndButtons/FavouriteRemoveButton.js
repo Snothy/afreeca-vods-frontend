@@ -14,7 +14,7 @@ class FavouriteRemoveButton extends React.Component {
 
     handleClickRemove = (e) => {
         e.preventDefault();
-        fetch(`http://localhost:3001/api/streamers/${this.props.bj_id}`, {
+        fetch(`https://afreeca-backend.herokuapp.com/api/streamers/${this.props.bj_id}`, {
             method: "DELETE",
             headers: {
             }

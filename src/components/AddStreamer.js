@@ -24,7 +24,7 @@ class AddStreamer extends React.Component {
     
     onFinish = (values) => {
         const {...data } = values;
-        fetch('http://localhost:3001/api/streamers/', {
+        fetch('https://afreeca-backend.herokuapp.com/api/streamers/', {
             method: "POST",
             body: JSON.stringify(data),
             headers: {

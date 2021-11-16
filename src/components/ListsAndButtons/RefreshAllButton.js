@@ -21,7 +21,7 @@ class RefreshAllButton extends React.Component {
         this.setState({refreshing: true});
         //this.state.tip = '...';
         this.setState({tip: '...'});
-        fetch(`http://localhost:3001/api/streamers/refresh/all`, {
+        fetch(`https://afreeca-backend.herokuapp.com/api/streamers/refresh/all`, {
             method: "GET",
             headers: {
             }

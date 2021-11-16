@@ -36,7 +36,7 @@ class Login extends React.Component {
     onFinish = (values) => {
         const {...data } = values;
         //console.log(data);
-        fetch('http://localhost:3001/api/streamers/a/login', {
+        fetch('https://afreeca-backend.herokuapp.com/api/streamers/a/login', {
             method: "POST",
             body: JSON.stringify(data),
             headers: {

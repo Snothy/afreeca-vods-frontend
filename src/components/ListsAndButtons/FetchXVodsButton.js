@@ -30,7 +30,7 @@ class FetchXVodsButton extends React.Component {
         
 
 
-        fetch(`http://localhost:3001/api/streamers/${this.props.bj_id}/fetchVods`, {
+        fetch(`https://afreeca-backend.herokuapp.com/api/streamers/${this.props.bj_id}/fetchVods`, {
             method: "POST",
             body: JSON.stringify(cookie),
             headers: {

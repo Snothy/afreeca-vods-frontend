@@ -20,7 +20,7 @@ class RefreshIdButton extends React.Component {
         //this.state.tip = '...';
         this.setState({tip: '...'});
         //console.log(this.props.bj_id);
-        fetch(`http://localhost:3001/api/streamers/refresh/${this.props.bj_id}`, {
+        fetch(`https://afreeca-backend.herokuapp.com/api/streamers/refresh/${this.props.bj_id}`, {
             method: "GET",
             headers: {
             }
