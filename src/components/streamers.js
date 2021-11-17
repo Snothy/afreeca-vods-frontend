@@ -21,7 +21,7 @@ class Streamers extends React.Component {
 
     componentDidMount() {
       this.setState({mounted: true});
-      let url = info.config.url+`streamers/`;
+      let url = info.url+`streamers/`;
         fetch(url, {
             method: "GET",
             headers: {
@@ -45,7 +45,7 @@ class Streamers extends React.Component {
         });
         
         //cleaner way of updating live status that individual button presses
-        url = info.config.url+`streamers/refresh/all/fast`;
+        url = info.url+`streamers/refresh/all/fast`;
         fetch(url, {
             method: "GET",
             headers: {

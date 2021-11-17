@@ -25,7 +25,7 @@ class AddStreamer extends React.Component {
     
     onFinish = (values) => {
         const {...data } = values;
-        const url = info.config.url+'streamers/';
+        const url = info.url+'streamers/';
         fetch(url, {
             method: "POST",
             body: JSON.stringify(data),

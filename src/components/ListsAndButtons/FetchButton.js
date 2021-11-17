@@ -28,7 +28,7 @@ class FetchButton extends React.Component {
         let cookie = this.context.cookie;
         cookie = {cookie: cookie};
         
-        const url = info.config.url+`streamers/${this.props.favourite.id}/fetch`;
+        const url = info.url+`streamers/${this.props.favourite.id}/fetch`;
         fetch(url, {
             method: "POST",
             body: JSON.stringify(cookie),

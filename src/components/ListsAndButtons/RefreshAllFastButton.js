@@ -23,7 +23,7 @@ class RefreshAllFastButton extends React.Component {
         //this.state.tip = '...';
         this.setState({tip:'...'});
 
-        const url = info.config.url+`streamers/refresh/all/fast`;
+        const url = info.url+`streamers/refresh/all/fast`;
         fetch(url, {
             method: "GET",
             headers: {

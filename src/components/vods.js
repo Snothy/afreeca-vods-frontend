@@ -17,7 +17,7 @@ class Vods extends React.Component {
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        const url = info.config.url+`streamers/${id}/vods`;
+        const url = info.url+`streamers/${id}/vods`;
         fetch(url, {
             method: "GET",
             headers: {

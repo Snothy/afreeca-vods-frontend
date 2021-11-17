@@ -36,7 +36,7 @@ class Login extends React.Component {
     
     onFinish = (values) => {
         const {...data } = values;
-        const url = info.config.url+`streamers/a/login`;
+        const url = info.url+`streamers/a/login`;
         fetch(url, {
             method: "POST",
             body: JSON.stringify(data),

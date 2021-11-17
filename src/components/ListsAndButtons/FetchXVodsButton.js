@@ -29,7 +29,7 @@ class FetchXVodsButton extends React.Component {
         let cookie = this.context.cookie;
         cookie = {cookie: cookie};
         
-        const url = info.config.url+`streamers/${this.props.bj_id}/fetchVods`;
+        const url = info.url+`streamers/${this.props.bj_id}/fetchVods`;
         fetch(url, {
             method: "POST",
             body: JSON.stringify(cookie),

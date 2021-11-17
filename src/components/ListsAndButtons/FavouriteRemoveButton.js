@@ -14,7 +14,7 @@ class FavouriteRemoveButton extends React.Component {
 
     handleClickRemove = (e) => {
         e.preventDefault();
-        const url = info.config.url+`streamers/${this.props.bj_id}`;
+        const url = info.url+`streamers/${this.props.bj_id}`;
         fetch(url, {
             method: "DELETE",
             headers: {

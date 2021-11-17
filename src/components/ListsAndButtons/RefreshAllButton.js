@@ -23,7 +23,7 @@ class RefreshAllButton extends React.Component {
         //this.state.tip = '...';
         this.setState({tip: '...'});
 
-        const url = info.config.url+`streamers/refresh/all`;
+        const url = info.url+`streamers/refresh/all`;
         fetch(url, {
             method: "GET",
             headers: {

@@ -22,7 +22,7 @@ class RefreshIdButton extends React.Component {
         this.setState({tip: '...'});
         //console.log(this.props.bj_id);
 
-        const url = info.config.url+`streamers/refresh/${this.props.bj_id}`;
+        const url = info.url+`streamers/refresh/${this.props.bj_id}`;
         fetch(url, {
             method: "GET",
             headers: {
