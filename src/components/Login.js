@@ -4,6 +4,7 @@ import { status, json } from '../utilities/requestHandlers';
 import LoginContext from '../contexts/login';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import  { Redirect } from 'react-router-dom'
+import info from '../config';
 
 const formItemLayout = {
     labelCol: { xs: { span: 24 }, sm: { span: 6 } },
@@ -35,8 +36,8 @@ class Login extends React.Component {
     
     onFinish = (values) => {
         const {...data } = values;
-        //console.log(data);
-        fetch('https://afreeca-backend.herokuapp.com/api/streamers/a/login', {
+        const url = info.config.url+`streamers/a/login`;
+        fetch(url, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {

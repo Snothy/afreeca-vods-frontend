@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { status, json } from '../../utilities/requestHandlers';
 import {errorHandler} from '../../utilities/errorHandler';
 import LoginContext from '../../contexts/login';
+import info from '../../config';
 
 class RefreshAllFastButton extends React.Component {
 
@@ -21,7 +22,9 @@ class RefreshAllFastButton extends React.Component {
         this.setState({refreshing: true});
         //this.state.tip = '...';
         this.setState({tip:'...'});
-        fetch(`https://afreeca-backend.herokuapp.com/api/streamers/refresh/all/fast`, {
+
+        const url = info.config.url+`streamers/refresh/all/fast`;
+        fetch(url, {
             method: "GET",
             headers: {
             }

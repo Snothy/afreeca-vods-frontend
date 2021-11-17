@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
 import { status, json } from '../utilities/requestHandlers';
+import info from '../config';
 
 const formItemLayout = {
     labelCol: { xs: { span: 24 }, sm: { span: 6 } },
@@ -24,7 +25,8 @@ class AddStreamer extends React.Component {
     
     onFinish = (values) => {
         const {...data } = values;
-        fetch('https://afreeca-backend.herokuapp.com/api/streamers/', {
+        const url = info.config.url+'streamers/';
+        fetch(url, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {

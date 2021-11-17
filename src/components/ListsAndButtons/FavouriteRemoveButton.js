@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { status, json } from '../../utilities/requestHandlers';
-import {errorHandler} from '../../utilities/errorHandler';
+import info from '../../config';
 
 class FavouriteRemoveButton extends React.Component {
 
@@ -14,7 +14,8 @@ class FavouriteRemoveButton extends React.Component {
 
     handleClickRemove = (e) => {
         e.preventDefault();
-        fetch(`https://afreeca-backend.herokuapp.com/api/streamers/${this.props.bj_id}`, {
+        const url = info.config.url+`streamers/${this.props.bj_id}`;
+        fetch(url, {
             method: "DELETE",
             headers: {
             }
@@ -24,17 +25,11 @@ class FavouriteRemoveButton extends React.Component {
         .then(data => {
             if(data.removed === true) {
                 this.setState({removed: true});
-                //console.log('a');
-                const id = this.props.bj_id;
-                //console.log(this.props);
-                this.props.onRemove(id);
-                //console.log('b');
-
+                this.props.onRemove(this.props.bj_id);
             }
         })
         .catch(err => {
-            const error = errorHandler(err);
-            console.log(error);
+            console.log(err);
             //error handling
         })
         
@@ -49,7 +44,7 @@ class FavouriteRemoveButton extends React.Component {
         const tip = 'Remove';
         return (
             <button type="button" 
-            className={classNames("btn-basicrr ", { on: false })}
+            className={classNames("btn-basic blue1 ", { on: false })}
             tip={tip} 
             onClick={this.handleClickRemove} 
             onChange={this.handleStatusChange}

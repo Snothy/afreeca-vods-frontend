@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { status, json } from '../../utilities/requestHandlers';
 import {errorHandler} from '../../utilities/errorHandler';
 import LoginContext from '../../contexts/login';
+import info from '../../config';
 
 class FetchXVodsButton extends React.Component {
 
@@ -28,9 +29,8 @@ class FetchXVodsButton extends React.Component {
         let cookie = this.context.cookie;
         cookie = {cookie: cookie};
         
-
-
-        fetch(`https://afreeca-backend.herokuapp.com/api/streamers/${this.props.bj_id}/fetchVods`, {
+        const url = info.config.url+`streamers/${this.props.bj_id}/fetchVods`;
+        fetch(url, {
             method: "POST",
             body: JSON.stringify(cookie),
             headers: {

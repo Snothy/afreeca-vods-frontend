@@ -24,7 +24,7 @@ class FavouriteList extends React.Component {
         if(favourite.is_live) {
           return(
             <li key={favourite.id}>
-              <FavouriteItem favourite={favourite} onStatusChange={this.handleStatusChange}/>
+              <FavouriteItem favourite={favourite} onStatusChange={this.handleStatusChange} onRemove ={this.onRemove}/>
             </li>
           )
         }
@@ -35,7 +35,7 @@ class FavouriteList extends React.Component {
         if(!favourite.is_live) {
           return(
             <li key={favourite.id}>
-              <FavouriteItem favourite={favourite} onStatusChange={this.handleStatusChange}/>
+              <FavouriteItem favourite={favourite} onStatusChange={this.handleStatusChange} onRemove ={this.onRemove}/>
             </li>
           )
         } else {

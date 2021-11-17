@@ -2,6 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { status, json } from '../../utilities/requestHandlers';
 import {errorHandler} from '../../utilities/errorHandler';
+import info from '../../config';
 
 class RefreshIdButton extends React.Component {
 
@@ -20,7 +21,9 @@ class RefreshIdButton extends React.Component {
         //this.state.tip = '...';
         this.setState({tip: '...'});
         //console.log(this.props.bj_id);
-        fetch(`https://afreeca-backend.herokuapp.com/api/streamers/refresh/${this.props.bj_id}`, {
+
+        const url = info.config.url+`streamers/refresh/${this.props.bj_id}`;
+        fetch(url, {
             method: "GET",
             headers: {
             }

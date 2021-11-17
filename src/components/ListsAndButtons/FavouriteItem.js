@@ -1,5 +1,5 @@
 import FetchButton from "./FetchButton";
-import RefreshIdButton from "./RefreshIdButton"
+//import RefreshIdButton from "./RefreshIdButton"
 import FavouriteRemoveButton from "./FavouriteRemoveButton"
 import React from 'react';
 import fromNow from "fromnow";
@@ -66,8 +66,7 @@ class FavouriteItem extends React.Component {
                 </>}
                 
                 
-                <FetchButton bj_id={favourite.id} />
-                <RefreshIdButton bj_id= {favourite.id} onStatusChange={this.handleStatusChange}  className="btn-fav" />
+                {favourite.is_live ? <FetchButton favourite={favourite} className="btn-fav"/>: null}
             </Link>
             </>
         );

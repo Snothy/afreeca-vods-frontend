@@ -12,6 +12,7 @@ class VodList extends React.Component {
             vods: [],
             num_vods: 0,
             updated:false,
+            noneFound: false
         }
     }
 
@@ -21,6 +22,9 @@ class VodList extends React.Component {
     componentDidUpdate() {
         if(this.state.vods.length<this.props.vods.length) {
             this.setState({vods: this.props.vods});
+        }
+        if(this.state.noneFound !== this.props.noneFound) {
+          this.setState({noneFound: this.props.noneFound});
         }
     }
 
@@ -37,17 +41,14 @@ class VodList extends React.Component {
         }
         this.setState({updated: true});
         this.props.onFetchVods(vods);
+        this.setState({noneFound: false});
     }
 
 
     render() {
         const vods = this.state.vods;
-        //console.log(this.props);
         const bj_id = this.props.match.params.id;
-        //console.log(this.props.vods.length > 0);
-        //console.log(this.props.noneFound);
-        //console.log(this.props.vods);
-        if (this.props.noneFound === true) {
+        if (this.state.noneFound === true) {
           return(
             <>
             <FetchXVodsButton num_vods = {this.state.num_vods} bj_id ={bj_id} streamers= {this.state.streamers} onStatusChange={this.handleFetchVods}  className="btn-fav" />

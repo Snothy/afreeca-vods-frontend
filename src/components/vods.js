@@ -2,6 +2,7 @@ import React from 'react';
 import VodList from './ListsAndButtons/VodList';
 import { withRouter } from "react-router";
 import { status, json } from '../utilities/requestHandlers';
+import info from '../config';
 
 class Vods extends React.Component {
     constructor(props) {
@@ -16,7 +17,8 @@ class Vods extends React.Component {
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        fetch(`https://afreeca-backend.herokuapp.com/api/streamers/${id}/vods`, {
+        const url = info.config.url+`streamers/${id}/vods`;
+        fetch(url, {
             method: "GET",
             headers: {
             }
@@ -24,27 +26,12 @@ class Vods extends React.Component {
         .then(status)
         .then(json)
         .then(data => {
-            //console.log(data[0].date_released);
-            //console.log(new Date(data[0].date_released) - new Date(data[4].date_released));
-            //console.log(data);
-
             //sort vods by date released property
             data.sort(function(a, b) {
                 return new Date(b.date_released) - new Date(a.date_released);
             })
             //console.log(data)
             this.setState({vods: data});
-            //console.log(data);
-            //let newData;
-            //if(data.length === undefined) {
-            //    newData = [data];
-            //}
-            //this.state.vods = data;
-            //console.log(newData);
-            //this.setState({vods: newData});
-            //console.log(data);
-            //console.log(this.state);
-            //console.log(this.state.vods)
         })
         .catch(err => {
             if(err.status === 404) {
@@ -66,6 +53,7 @@ class Vods extends React.Component {
             this.state.vods.push(vods[i]);
             const updVods = this.state.updatedVods;
             this.setState({vods:updVods});
+            this.setState({noneFound: false});
             //this.state.vods = this.state.updatedVods;
         }
     }
@@ -81,9 +69,6 @@ class Vods extends React.Component {
       }
 
     render() {
-        //console.log(this.state.vods);
-        //console.log(this.state.fetched);
-        
         return (
             <>
             {!this.state.updated ? <VodList noneFound = {this.state.noneFound} vods = {this.state.vods} onStatusChange = {this.handleStatusChange} onFetchVods = {this.handleFetchVods}/>:

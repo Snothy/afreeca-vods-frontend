@@ -4,7 +4,7 @@ import { status, json } from '../utilities/requestHandlers';
 import {errorHandler} from '../utilities/errorHandler';
 import ReactPlayer from 'react-player';
 import VodButton from './ListsAndButtons/vodButton';
-
+import info from '../config';
 
 class Vod extends React.Component {
     constructor(props) {
@@ -19,7 +19,8 @@ class Vod extends React.Component {
     componentDidMount() {
         const id = this.props.match.params.id;
         const vodId = this.props.match.params.vodId;
-        fetch(`https://afreeca-backend.herokuapp.com/api/streamers/${id}/${vodId}`, {
+        const url = info.config.url+`streamers/${id}/${vodId}`;
+        fetch(url, {
             method: "GET",
             headers: {
             }
