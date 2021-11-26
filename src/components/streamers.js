@@ -39,7 +39,7 @@ class Streamers extends React.Component {
             if(error[0] === false) {
               this.setState({noneFound: true});
             } else {
-              console.error(error);
+              //console.error(error);
             }
             //error handling
         });
