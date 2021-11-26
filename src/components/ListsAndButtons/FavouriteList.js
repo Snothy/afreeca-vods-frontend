@@ -49,7 +49,7 @@ class FavouriteList extends React.Component {
                 <div id="favorite_list" className="favor-wrap" style={{
                     marginTop: -35, paddingLeft:50
                 }}>
-                    <h2 className='big h2'>LIVE</h2>
+                    <h2 className='big.h2'>LIVE</h2>
                 <div className="favor-list">
                     <ul>
                       {favouritesLive}
@@ -60,7 +60,7 @@ class FavouriteList extends React.Component {
                 <div id="favorite_list" className="favor-wrap"style={{
                     marginTop: -35, paddingLeft:50
                 }}>
-                <h2 className='big h2'>OFFLINE</h2>
+                <h2 className='big.h2'>OFFLINE</h2>
                 <div className="favor-list">
                     <ul>
                       {favouritesOffline}

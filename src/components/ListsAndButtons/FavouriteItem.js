@@ -62,7 +62,7 @@ class FavouriteItem extends React.Component {
                     <div href="/#" className="live">LIVE</div>
                 </div>
                 </span>
-                <p style={{paddingTop: 24, textAlign: 'center', color: "black", marginTop:-5, fontSize:13}}> {live_for} </p>
+                <p style={{paddingTop: 30, textAlign: 'center', color: "black", marginTop:-5, fontSize:13}}> {live_for} </p>
                 </>}
                 
                 
