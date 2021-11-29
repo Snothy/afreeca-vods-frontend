@@ -48,7 +48,7 @@ class FavouriteRemoveButton extends React.Component {
             tip={tip} 
             onClick={this.handleClickRemove} 
             onChange={this.handleStatusChange}
-            style = {{position:"relative", left:1, bottom:20, float: 'right'}}>
+            style = {{position:"relative", left:1, bottom:20, float: 'right', zIndex: 2}}>
                 <span>X</span>
             </button>
         );

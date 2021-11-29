@@ -12,14 +12,18 @@ class VodList extends React.Component {
             vods: [],
             num_vods: 0,
             updated:false,
-            noneFound: false
+            noneFound: false,
+            mounted: false
         }
     }
 
     componentDidMount() {
+        this.setState({mounted: true});
         //this.state.vods = this.props.vods;
     }
     componentDidUpdate() {
+        if(!this.state.mounted) return;
+
         if(this.state.vods.length<this.props.vods.length) {
             this.setState({vods: this.props.vods});
         }
@@ -29,19 +33,23 @@ class VodList extends React.Component {
     }
 
     handleStatusChange = (vod) => {
-        //this.setState({bj: bj});
-        //console.log(bj);
+        if(!this.state.mounted) return;
         this.props.onStatusChange(vod);
     }
 
     handleFetchVods =(vods) => {
-        //this.setState({vods: vods});
+        if(!this.state.mounted) return;
+
         for(let i=0; i<vods.length; i++) {
             this.state.vods.push(vods[i]);
         }
         this.setState({updated: true});
         this.props.onFetchVods(vods);
         this.setState({noneFound: false});
+    }
+
+    componentWillUnmount() {
+      this.setState({mounted: false});
     }
 
 
@@ -86,7 +94,7 @@ class VodList extends React.Component {
                         slidesPerGroup={3}
                         slidesPerColumnFill="row"
                         pagination={{"clickable": true}} 
-                        allowTouchMove={true}
+                        allowTouchMove={false}
                     >
                         {vods.map((vod, index) => {
                             return (
@@ -118,55 +126,3 @@ class VodList extends React.Component {
 }
 
 export default withRouter(VodList);
-
-
-
-
-/*
-
-                <div className="slide-vod">
-                    {(vods.length > 6) && <SwiperController swiperRef={this.state.ref} autoplay={false} />}
-
-                    <Swiper
-                        ref={this.state.ref}
-                        autoplay={false}
-                        wrapperTag="ul"
-                        spaceBetween={19}
-                        slidesPerView={100}
-                        allowTouchMove={false}
-                        loop={vods.length > 4}
-                    >
-                        {vods.map((vod, index) => {
-                            return (
-                                <SwiperSlide tag="li" key={index} data-type="cBox">
-                                    <VodItem vod={vod} onStatusChange={this.handleStatusChange}/>
-                                </SwiperSlide>
-                                );
-                        })}
-                    </Swiper>
-                </div>
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-                                <SwiperSlide tag="li" key={index} data-type="cBox">
-                                    <VodItem vod={vod} onStatusChange={this.handleStatusChange}/>
-                                </SwiperSlide>
-*/

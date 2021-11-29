@@ -1,3 +1,18 @@
 @import url("https://res.afreecatv.com/css/global/common_set.css");
 @import url("https://res.afreecatv.com/lang/css/web/afmain.css");
 @import url("https://res.afreecatv.com/css/global/myservice.css");
+@import '~antd/dist/antd.css';
+
+#components-layout-demo-responsive .logo {
+    height: 32px;
+    margin: 16px;
+    background: rgba(255, 255, 255, 0.2);
+}
+  
+.site-layout-sub-header-background {
+background: #fff;
+}
+
+.site-layout-background {
+background: #fff;
+}

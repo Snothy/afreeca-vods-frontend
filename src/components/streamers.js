@@ -37,6 +37,9 @@ class Streamers extends React.Component {
         .catch(err => {
             const error = errorHandler(err);
             if(error[0] === false) {
+              if(!this.state.mounted) {
+                return;
+              }
               this.setState({noneFound: true});
             } else {
               //console.error(error);
@@ -44,7 +47,7 @@ class Streamers extends React.Component {
             //error handling
         });
         
-        //cleaner way of updating live status that individual button presses
+        //cleaner way of updating live status than individual button presses
         url = info.url+`streamers/refresh/all/fast`;
         fetch(url, {
             method: "GET",
@@ -58,8 +61,10 @@ class Streamers extends React.Component {
               for(let i=0; i<data.streamers.length; i++) {
                 data.streamers[i].fetching = data.fetching[i].fetching;
               }
+              if(!this.state.mounted) return;
               this.setState({streamers: data.streamers});
             }
+
         })
         .catch(err => {
             const error = errorHandler(err);
@@ -69,8 +74,9 @@ class Streamers extends React.Component {
     }
 
     handleAllStatusChange = (streamers) => {
-        //this.setState({bj: bj});
-
+        if(!this.state.mounted) {
+          return;
+        }
         //this.state.updatedList = streamers;
         //this.state.streamers = streamers;
         this.setState({updatedList: streamers});
@@ -82,8 +88,9 @@ class Streamers extends React.Component {
 
     
     handleStatusChange = (bj) => {
-        //this.setState({bj: bj});
-        //console.log(bj);
+        if(!this.state.mounted) {
+          return;
+        }
         for(let i=0; i<this.state.streamers.length; i++) {
             if(this.state.streamers[i].id === bj[0].id) {
                 //this.state.updatedList = this.state.streamers;
@@ -100,7 +107,9 @@ class Streamers extends React.Component {
         }
     }
     onRemove = (bj_id) => {
-        //console.log(this.state.streamers);
+        if(!this.state.mounted) {
+          return;
+        }
         for(let i=0; i<this.state.streamers.length; i++) {
             //console.log(this.state.streamers[i]);
             if (this.state.streamers[i].id === bj_id) {
@@ -121,8 +130,11 @@ class Streamers extends React.Component {
     componentDidUpdate(prevProps, prevState){
         if(prevState.updated !== this.state.updated) {
             //this.state.streamers = this.state.updatedList;
-            this.setState({updated:false});
-            this.setState({updatedList: []});
+            if(this.state.mounted) {
+              this.setState({updated:false});
+              this.setState({updatedList: []});
+            }
+            
         }
         //refresh all case
         //

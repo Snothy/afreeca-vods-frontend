@@ -1,7 +1,6 @@
 import React from "react";
 import classNames from "classnames";
 import { status, json } from '../../utilities/requestHandlers';
-import {errorHandler} from '../../utilities/errorHandler';
 import LoginContext from '../../contexts/login';
 import info from '../../config';
 
@@ -12,11 +11,16 @@ class FetchXVodsButton extends React.Component {
         this.state = {
             vods: 0,
             refreshing: false,
-            tip: 'Fetch vods'
+            tip: 'Fetch vods',
+            mounted: false
         }
     }
 
     static contextType = LoginContext;
+
+    componentDidMount() {
+      this.setState({mounted: true});
+    }
 
     handleClickRefresh = (e) => {
         e.preventDefault();
@@ -40,6 +44,7 @@ class FetchXVodsButton extends React.Component {
         .then(status)
         .then(json)
         .then(data => {
+            if(!this.state.mounted) return;
             //this.state.tip = 'Fetch vods';
             this.setState({tip:'Fetch vods'});
             this.setState({refreshing: false});
@@ -48,21 +53,23 @@ class FetchXVodsButton extends React.Component {
             this.props.onStatusChange(data);
         })
         .catch(err => {
-            const error = errorHandler(err);
-            console.log(error);
+            if(!this.state.mounted) return;
 
             //this.state.tip = 'Fetch vods';
             this.setState({tip:'Fetch vods'});
             this.setState({refreshing: false});
             //error handling
         })
-        
     }
 
     handleStatusChange = () => {
         //const is_live = this.state.is_live;
-
     }
+
+    componentWillUnmount() {
+      this.setState({mounted: false});
+    }
+
     render() {
         let style;
         style = {position:"absolute", left:25,  marginTop:155};

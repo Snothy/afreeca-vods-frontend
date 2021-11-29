@@ -11,11 +11,13 @@ class Vods extends React.Component {
             vods: [],
             updated: false,
             updatedVods: [],
-            noneFound: false
+            noneFound: false,
+            mounted: false
         }
     }
 
     componentDidMount() {
+        this.setState({mounted: true});
         const id = this.props.match.params.id;
         const url = info.url+`streamers/${id}/vods`;
         fetch(url, {
@@ -26,6 +28,9 @@ class Vods extends React.Component {
         .then(status)
         .then(json)
         .then(data => {
+            if(!this.state.mounted) {
+              return;
+            }
             //sort vods by date released property
             data.sort(function(a, b) {
                 return new Date(b.date_released) - new Date(a.date_released);
@@ -34,6 +39,9 @@ class Vods extends React.Component {
             this.setState({vods: data});
         })
         .catch(err => {
+            if(!this.state.mounted) {
+              return;
+            }
             if(err.status === 404) {
               this.setState({noneFound: true});
             }
@@ -45,6 +53,9 @@ class Vods extends React.Component {
     }
 
     handleFetchVods = (vods) => {
+        if(!this.state.mounted) {
+          return;
+        }
         this.setState({updated: true});
         for(let i=0; i<vods.length; i++) {
             //this.state.updatedVods = this.state.vods;
@@ -59,6 +70,9 @@ class Vods extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState){
+        if(!this.state.mounted) {
+          return;
+        }
         if(prevState.updated !== this.state.updated) {
             //this.state.streamers = this.state.updatedList;
             this.setState({updated:false});
@@ -66,6 +80,10 @@ class Vods extends React.Component {
         }
         //refresh all case
         //
+      }
+
+      componentWillUnmount() {
+        this.setState({mounted: false});
       }
 
     render() {

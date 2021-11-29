@@ -10,8 +10,6 @@ class FavouriteList extends React.Component {
     }
 
     handleStatusChange = (bj) => {
-        //this.setState({bj: bj});
-        //console.log(bj);
         this.props.onStatusChange(bj);
     }
 
@@ -83,26 +81,3 @@ class FavouriteList extends React.Component {
 }
 
 export default FavouriteList;
-
-
-/*
-        if (this.props.streamers.length > 0) {
-            return (
-            <div id="favorite_list" className="favor-wrap">
-                <div className="favor-list">
-                    <ul>
-                        {this.props.streamers.map((favourite, index) =>
-                            <li key={index}>
-                                <FavouriteItem favourite={favourite} onStatusChange={this.handleStatusChange}/>
-                            </li>
-                        )}
-                    </ul>
-                </div>
-            </div>);
-        } else {
-            return (
-                <>
-                </>
-            );
-        }
-*/

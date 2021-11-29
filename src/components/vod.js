@@ -12,11 +12,13 @@ class Vod extends React.Component {
         this.state = {
             vod: [],
             url: '',
-            playing: true
+            playing: true,
+            mounted: false
         }
     }
 
     componentDidMount() {
+        this.setState({mounted: true});
         const id = this.props.match.params.id;
         const vodId = this.props.match.params.vodId;
         const url = info.url+`streamers/${id}/${vodId}`;
@@ -28,6 +30,7 @@ class Vod extends React.Component {
         .then(status)
         .then(json)
         .then(data => {
+            if(!this.state.mounted) return;
             if(data.length === undefined) {
                 data = [data];
             }
@@ -43,8 +46,12 @@ class Vod extends React.Component {
 
 
     changeSrc = (url) => {
-        //const newVod = this.state.vod[1].vod_link;
+        if(!this.state.mounted) return;
         this.setState({url: url});
+    }
+    
+    componentWillUnmount() {
+      this.setState({mounted: false});
     }
 
 
@@ -77,7 +84,7 @@ class Vod extends React.Component {
                 height: 1000
             }}>
 
-                <ReactPlayer 
+            <ReactPlayer 
             url={this.state.url}
             playing={this.state.playing}
             controls={true}

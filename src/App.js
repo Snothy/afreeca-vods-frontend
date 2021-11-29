@@ -1,7 +1,6 @@
 import React from 'react';
 import { Layout } from 'antd';
 import './App.css';
-import './components/ListsAndButtons/antd.css';
 
 import SidebarNav from './components/SidebarNav';
 import Streamers from './components/streamers';
@@ -9,6 +8,8 @@ import Vods from './components/vods';
 import Vod from './components/vod';
 import AddStreamer from './components/AddStreamer';
 import Login from './components/Login';
+import Live from './components/Live';
+import Browse from './components/Browse';
 import LoginContext from './contexts/login';
 
 
@@ -78,12 +79,17 @@ class App extends React.Component {
 
                 <Content >
                     <Switch >
+                        <Route path="/:id/live" children={<Live />} />
                         <Route path="/:id/:vodId" children={<Vod />} />
+                        
+                        <Route path="/favourites" children={<Streamers />} />
                         <Route name="add" path="/add" children={<AddStreamer />} />
                         <Route name="add" path="/login" children={<Login />} />
                         <Route name="vods" path="/:id" children={<Vods />} />
 
-                        <Route path="/" children={<Streamers />} />
+                        <Route path="/" children={<Browse />} />
+
+                        
                     </Switch>
                 </Content>
                

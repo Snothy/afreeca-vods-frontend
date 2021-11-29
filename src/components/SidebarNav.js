@@ -13,7 +13,7 @@ function SidebarNav(props) {
     if(!loggedIn){
         Login = (
             <>
-            <Menu.Item key="3" icon={<UploadOutlined />}>
+            <Menu.Item key="4" icon={<UploadOutlined />}>
             <Link to="/login">Login</Link>
             </Menu.Item>
             </>
@@ -27,14 +27,21 @@ function SidebarNav(props) {
                     style={{
                         backgroundColor:"#f5f6f8", marginTop:8
                     }}
-                >
+                > 
                     <Menu.Item key="1" icon={<UserOutlined />} style={{
                     }}>
-                    <Link to="/">Home</Link>
+                    <Link to="/">Browse</Link>
                     </Menu.Item>
-                    <Menu.Item key="2" icon={<UploadOutlined />}>
-                    <Link to="/add">Add streamer</Link>
+
+                    <Menu.Item key="2" icon={<UserOutlined />} style={{
+                    }}>
+                    <Link to="/favourites">Favourites</Link>
                     </Menu.Item>
+
+                    <Menu.Item key="3" icon={<UploadOutlined />}>
+                    <Link to="/add">Add favourite</Link>
+                    </Menu.Item>
+
                     {Login}
 
             </Menu>
