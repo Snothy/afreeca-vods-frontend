@@ -77,7 +77,7 @@ class Live extends React.Component {
               marginRight: "0"
             }}> {this.state.data.title} </p>
             <ReactPlayer 
-            url={this.state.data.live_url}
+            url={process.env.REACT_APP_heroku_proxy + this.state.data.live_url}
             config={{
               file: {
                 attributes: {
@@ -93,7 +93,7 @@ class Live extends React.Component {
                 
               }
             }}
-            playing={process.env.REACT_APP_heroku_proxy + this.state.playing}
+            playing={this.state.playing}
             controls={true}
             width="73%"
             height="73%"

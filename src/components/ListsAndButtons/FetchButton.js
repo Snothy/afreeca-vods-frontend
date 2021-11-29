@@ -22,6 +22,10 @@ class FetchButton extends React.Component {
     onClickFetch = (e) =>{
         e.preventDefault();
         if(!this.state.mounted) return;
+        if(!this.context.loggedIn) {
+          alert("You need to log in to use fetch");
+          return;
+        }
         this.setState({fetching: true});
         this.setState({tip:'...'});
         let cookie = this.context.cookie;
