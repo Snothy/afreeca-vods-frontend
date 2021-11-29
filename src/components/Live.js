@@ -93,7 +93,7 @@ class Live extends React.Component {
                 
               }
             }}
-            playing={this.state.playing}
+            playing={process.env.REACT_APP_heroku_proxy + this.state.playing}
             controls={true}
             width="73%"
             height="73%"
