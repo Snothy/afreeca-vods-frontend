@@ -72,9 +72,9 @@ class FetchXVodsButton extends React.Component {
 
     render() {
         let style;
-        style = {position:"absolute", left:25,  marginTop:155};
+        style = {position:"absolute", left:25,  marginTop:202};
         if(this.context.loggedIn === true) {
-            style = {position:"absolute", left:25,  marginTop:108};
+            style = {position:"absolute", left:25,  marginTop:155};
         }
         const tip = this.state.tip;
         return (
