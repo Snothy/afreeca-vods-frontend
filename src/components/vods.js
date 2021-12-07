@@ -9,8 +9,6 @@ class Vods extends React.Component {
         super(props);
         this.state = {
             vods: [],
-            updated: false,
-            updatedVods: [],
             noneFound: false,
             mounted: false
         }
@@ -45,52 +43,39 @@ class Vods extends React.Component {
             if(err.status === 404) {
               this.setState({noneFound: true});
             }
-        })
-    }
-
-    handleStatusChange = (vods) => {
-        //in case i need to update dynamically
+          })
     }
 
     handleFetchVods = (vods) => {
-        if(!this.state.mounted) {
-          return;
+      if(!this.state.mounted) return;
+      let currVods = this.state.vods;
+      
+      // adding new vods
+      if(!this.state.noneFound) {
+        vods = vods.reverse();
+        for(let i = 0; i < vods.length; i++) {
+          currVods.unshift(vods[i]);
         }
-        this.setState({updated: true});
-        for(let i=0; i<vods.length; i++) {
-            //this.state.updatedVods = this.state.vods;
-            const currVods = this.state.vods;
-            this.setState({updatedVods: currVods});
-            this.state.vods.push(vods[i]);
-            const updVods = this.state.updatedVods;
-            this.setState({vods:updVods});
-            this.setState({noneFound: false});
-            //this.state.vods = this.state.updatedVods;
-        }
+        this.setState({vods: currVods});
+        return;
+      }
+
+      // no vods present
+      for(let i=0; i<vods.length; i++) {
+          currVods.push(vods[i]);
+      }
+      this.setState({vods: currVods});
+      this.setState({noneFound: false});
+  }
+
+    componentWillUnmount() {
+      this.setState({mounted: false});
     }
-
-    componentDidUpdate(prevProps, prevState){
-        if(!this.state.mounted) {
-          return;
-        }
-        if(prevState.updated !== this.state.updated) {
-            //this.state.streamers = this.state.updatedList;
-            this.setState({updated:false});
-            this.setState({updatedList: []});
-        }
-        //refresh all case
-        //
-      }
-
-      componentWillUnmount() {
-        this.setState({mounted: false});
-      }
 
     render() {
         return (
             <>
-            {!this.state.updated ? <VodList noneFound = {this.state.noneFound} vods = {this.state.vods} onStatusChange = {this.handleStatusChange} onFetchVods = {this.handleFetchVods}/>:
-            <VodList noneFound = {this.state.noneFound} vods = {this.state.updatedVods} onStatusChange = {this.handleStatusChange} onFetchVods = {this.handleFetchVods}/>}
+            <VodList noneFound = {this.state.noneFound} vods = {this.state.vods} handleFetchVods = {this.handleFetchVods}/>
             </>
         );
     }

@@ -22,14 +22,10 @@ class FetchXVodsButton extends React.Component {
       this.setState({mounted: true});
     }
 
-    handleClickRefresh = (e) => {
+    handleFetchVods = (e) => {
         e.preventDefault();
         this.setState({refreshing: true});
-        //this.state.tip = '...';
         this.setState({tip: '...'});
-        //console.log(this.props.bj_id);
-
-        //let cookie = sessionStorage.getItem(`cookie`);
         let cookie = this.context.cookie;
         cookie = {cookie: cookie};
         
@@ -45,25 +41,18 @@ class FetchXVodsButton extends React.Component {
         .then(json)
         .then(data => {
             if(!this.state.mounted) return;
-            //this.state.tip = 'Fetch vods';
             this.setState({tip:'Fetch vods'});
             this.setState({refreshing: false});
 
             //pass vods data onto parent component (vods.js) for real-time state update
-            this.props.onStatusChange(data);
+            this.props.handleFetchVods(data);
         })
         .catch(err => {
             if(!this.state.mounted) return;
-
-            //this.state.tip = 'Fetch vods';
             this.setState({tip:'Fetch vods'});
             this.setState({refreshing: false});
             //error handling
         })
-    }
-
-    handleStatusChange = () => {
-        //const is_live = this.state.is_live;
     }
 
     componentWillUnmount() {
@@ -81,8 +70,7 @@ class FetchXVodsButton extends React.Component {
             <button type="button" 
             className={classNames("btn-basic blue1 ", { on: false })}
             tip={'Get all available VODs'} 
-            onClick={this.handleClickRefresh} 
-            onChange={this.handleStatusChange}
+            onClick={this.handleFetchVods} 
             style = {style}>
                 {!this.state.refreshing ? <span>{tip}</span>:
                 <span>...</span>}
@@ -91,8 +79,5 @@ class FetchXVodsButton extends React.Component {
     }
 
 }
-
-//{on: true} is the click - use state for it
-//style = {{marginTop: 145, paddingRight:20}}
 
 export default FetchXVodsButton;

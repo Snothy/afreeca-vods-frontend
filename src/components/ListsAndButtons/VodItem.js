@@ -30,12 +30,6 @@ class VodItem extends React.Component {
         this.setState({bj: routeState});
         
     }
-
-    handleStatusChange = (vod) => {
-        this.setState({vod: vod});
-        this.props.onStatusChange(vod);
-        //console.log(bj);
-    }
     
     render() {
         //this.state.vod = this.props.vod;
