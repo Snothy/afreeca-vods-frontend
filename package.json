@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "react-scripts --max_old_space_size=512 start",
+    "dev": "react-scripts --openssl-legacy-provider --max_old_space_size=512 start",
     "build": "react-scripts --max_old_space_size=512 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

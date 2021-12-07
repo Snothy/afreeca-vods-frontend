@@ -28,25 +28,26 @@ class Chat extends React.Component {
       const ws = new WebSocket(this.props.data.chat, "chat");
       this.setState({ws: ws});
 
-      let connection;
-      if(this.props.data.auth === "") {
-        connection = "	00010000060016";
-      } else {
-        //	000100000600 represents the length of the message
-        //there's 6 extra special characters in the request besides the cookie (auth code) submission
-        const baseValue = "0001000";
-        const length = addZeroes(baseValue, 6 + this.props.data.auth.length);
-        connection = "	"+ length +"" +this.props.data.auth+"16";
-      }
-  
-      const ping = "	000000000100";
+      //We need to send two messages to connect to the chat
+      //First one is the authentication message
+      //Second one contains details about the broadcast/stream
+      //Every message begins two special cahracters \x1b\t and has a special 12 digit number
+      //The 12 digit number contains: 
+      //A base value of - XXXX - represents the operation being performed
+      //A length value of - YYYYYY - a 6 digit number representing the length of the message
+      //An ending value of - 00
+      //Messages are usually separated by \f
+      //The auth message contains the special code, an authentication value obtained from the cookie and the number 16
+      //All of those are separated by \f
+      const connection = createMessage(1, this.props.data.auth, 16);
+      const connection2 = createMessage(2, this.props.data.chatno, this.props.data.ftk, 0);
+      const ping = "\x1b\t000000000100\f";
       let sendPing = setInterval(function() {
         ws.send(ping);
       }, 1*60*1000); //60 seconds
 
-      ws.onclose = e => {
+      ws.onclose = () => {
         clearInterval(sendPing);
-        //console.log(e);
       }
 
       ws.onopen = () => {
@@ -54,10 +55,6 @@ class Chat extends React.Component {
       }
 
       let counter = 0;
-      const baseValue = "0002000";
-      let connection2 = '' + this.props.data.chatno + '' +this.props.data.ftk +'0log&set_bps=2000&quality=ori&geo_cc=BG&geo_rc=39&acpt_lang=en_US&svc_lang=en_US&join_cc=100pwdauth_infoNULLpver1access_systemhtml5';
-      const length = addZeroes(baseValue, connection2.length);
-      connection2 = '	' + length + connection2;
       ws.onmessage = async e => {
         //Once a response is received, send second handshake message
         if(counter === 0) {
@@ -68,9 +65,7 @@ class Chat extends React.Component {
         const arrayBuffer = await e.data.arrayBuffer();
         var bytes = new Uint8Array(arrayBuffer);
         const txt = new TextDecoder("UTF-8").decode(bytes);
-        //console.log(txt);
-        const character = txt.substring(14,15);
-        const splitMsg = txt.split(character);
+        const splitMsg = txt.split('\f');
         const code = splitMsg[0].substring(2, 6);
         //Sent messages begin with 0005
         if(code === '0005') {
@@ -102,7 +97,6 @@ class Chat extends React.Component {
       if(value === "") {
         return;
       }
-      this.myFormRef.reset();
 
       if(!this.context.loggedIn) {
         alert("Log in to send messages");
@@ -110,15 +104,9 @@ class Chat extends React.Component {
       }
 
       const ws = this.state.ws;
-      //Message submits appear to start at  000500000400
-      //Each character increases this value 000500000500
-      //                                    000500000600
-      //...                                 000500001000
-      //there's 4 extra special characters in the request besides the text submission
-      //=> 0050005000 + 001 or + 010 or + 100  -> i'm capping it at 999characters
-      const baseValue = "0005000";
-      const length = addZeroes(baseValue, 4+value.length);
-      ws.send('	'+ length +'' + value + '0');
+      const message = createMessage(5, value, 0);
+      ws.send(message);
+      this.myFormRef.reset();
     }
 
     scrollToBottom = () => {
@@ -231,52 +219,51 @@ class Chat extends React.Component {
 
 export default withRouter(Chat);
 
-const addZeroes = (base, num) => {
-  //Create the submission code
-  // BASE:    000X000
-  // LENGTH:  YYY     -> example: 001, 052, 124
-  // END:     00
-  //assuming max is 999
+const addZeroes = (num, length) => {
   let numStr = num.toString();
-  const length = numStr.length;
-  for(let i=0; i< 3-length; i++) {
+  const numStrLength = numStr.length;
+  for(let i=0; i < length - numStrLength; i++) {
     numStr = "0" + numStr;
   }
-  return base+numStr+'00';
+  return numStr
 }
 
+const createCode = (base, num) => {
+  // Takes in integers, returns string
+  // Create the submission code
+  // BASE:    000X
+  // LENGTH:  YYYYYY     -> example: 000001, 000052, 000124
+  // END:     00
+  base = addZeroes(base, 4);
+  num = addZeroes(num, 6);  
 
+  return base+num+'00';
+}
 
-/* old chat
+/**
+ * Takes in n amount of string parameters. 
+ * 
+ * The first and last arguments are numbers related to the operation being performed.
+ * 
+ * Anything inbetween is a message you want to send to the server
+ * @param  {...any} values Message parameters. Split into 3 parts:
+ * 1. Operation code
+ * 
+ * 2. Messages
+ * 
+ * 3. Ending code
+ * @returns {string} The full message to be sent to the server
+ */
+const createMessage = (...values) => {
+  let message = values.slice(1, values.length-1);
+  message = "\f" + message.join('\f') + "\f\f" + values[values.length-1] + "\f";
 
+  // After a lot of trial and error, I have determined the length of the message
+  // is determined by converting it to a UTF8 array buffer.
+  // This handles cases for special characters
+  var uint8array = new TextEncoder("utf-8").encode(message);
+  const code = createCode(values[0], uint8array.length );
+  message = "\x1b\t" + code + message;
 
-      const msgList = this.state.msgs.map((msg, i) => {
-        return (
-          <div key={i} style={{
-            position: "relative"
-          }}>
-            <p key={i}>{msg.user}: {msg.content}</p>
-          </div>
-        )
-      });
-
-
-
-
-          <div style={{
-            position:"absolute",
-            left: "46%",
-            bottom: "49%",
-            width: "20%",
-            height: "45%",
-            overflowY: "scroll",
-            border: "2px solid black",
-            float: "left"
-          }}
-          >
-            {msgList}
-            <div ref={(el) =>  this.messagesEnd = el }>
-              
-            </div>
-          </div>
-*/
+  return message;
+}
