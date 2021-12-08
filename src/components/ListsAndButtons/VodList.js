@@ -1,74 +1,80 @@
-import VodItem from "./VodItem";
-import React, {Fragment} from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import FetchXVodsButton from "./FetchXVodsButton"
-import { withRouter } from "react-router";
-
+import VodItem from './VodItem';
+import React, { Fragment } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import FetchXVodsButton from './FetchXVodsButton';
+import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 
 class VodList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            vods: [],
-            noneFound: true,
-            mounted: false
-        }
+  constructor (props) {
+    super(props);
+    this.state = {
+      vods: [],
+      noneFound: true,
+      mounted: false
+    };
+  }
+
+  static propTypes = {
+    noneFound: PropTypes.bool,
+    vods: PropTypes.arrayOf(PropTypes.object),
+    handleFetchVods: PropTypes.func,
+    match: PropTypes.object
+  }
+
+  componentDidMount () {
+    this.setState({ mounted: true });
+  }
+
+  componentDidUpdate () {
+    if (!this.state.mounted) return;
+
+    if (this.state.vods.length < this.props.vods.length) {
+      this.setState({ vods: this.props.vods });
     }
 
-    componentDidMount() {
-        this.setState({mounted: true});
+    if (this.state.noneFound !== this.props.noneFound) {
+      this.setState({ noneFound: this.props.noneFound });
     }
+  }
 
-    componentDidUpdate() {
-        if(!this.state.mounted) return;
+  handleFetchVods = (vods) => {
+    if (!this.state.mounted) return;
+    this.props.handleFetchVods(vods);
+  }
 
-        if(this.state.vods.length<this.props.vods.length) {
-          this.setState({vods: this.props.vods});
-        }
+  componentWillUnmount () {
+    this.setState({ mounted: false });
+  }
 
-        if(this.state.noneFound !== this.props.noneFound) {
-          this.setState({noneFound: this.props.noneFound});
-        }
-    }
-
-    handleFetchVods = (vods) => {
-        if(!this.state.mounted) return;
-        this.props.handleFetchVods(vods);
-    }
-
-    componentWillUnmount() {
-      this.setState({mounted: false});
-    }
-
-    render() {
-      if(this.props.vods == null) {
-        return(
+  render () {
+    if (this.props.vods == null) {
+      return (
           <>
             <h2>Loading vods..</h2>
           </>
-        )
-      }
-      const bj_id = this.props.match.params.id;
-      if (this.state.noneFound === true) {
-        return(
+      );
+    }
+    const bj_id = this.props.match.params.id;
+    if (this.state.noneFound === true) {
+      return (
           <>
-          <FetchXVodsButton bj_id ={bj_id} handleFetchVods={this.handleFetchVods}  className="btn-fav" />
+          <FetchXVodsButton bj_id ={bj_id} handleFetchVods={this.handleFetchVods} className="btn-fav" />
           <h2>No vods found</h2>
           </>
-        )
-      }
+      );
+    }
 
-      const vods = this.props.vods;
-      if (this.props.vods.length > 0) {
-          return (
+    const vods = this.props.vods;
+    if (this.props.vods.length > 0) {
+      return (
               <>
-              <FetchXVodsButton bj_id ={bj_id} handleFetchVods={this.handleFetchVods}  className="btn-fav" />
+              <FetchXVodsButton bj_id ={bj_id} handleFetchVods={this.handleFetchVods} className="btn-fav" />
               <Fragment>
-              
+
               <div style={{
-                  marginTop: -20, paddingLeft:10
+                marginTop: -20, paddingLeft: 10
               }}>
-              
 
               <div className="title-wrap h2" >
                   <h2 className='big h2' >Vods</h2>
@@ -83,29 +89,29 @@ class VodList extends React.Component {
                       slidesPerColumn={20}
                       slidesPerGroup={3}
                       slidesPerColumnFill="row"
-                      pagination={{"clickable": true}} 
+                      pagination={{ clickable: true }}
                       allowTouchMove={false}
                   >
                       {vods.map((vod) => {
-                          return (
+                        return (
                               <SwiperSlide tag="li" key={vod.title_num} data-type="cBox" style={{}}>
                                   <VodItem vod={vod} />
                               </SwiperSlide>
-                              );
+                        );
                       })}
                   </Swiper>
               </div>
               </div>
               </Fragment>
               </>
-          )
-      } else {
-          return(
+      );
+    } else {
+      return (
               <>
               <h2>Loading vods..</h2>
               </>
-          )
-      }
+      );
+    }
   }
 }
 

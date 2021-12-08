@@ -4,60 +4,52 @@ import { status, json } from '../utilities/requestHandlers';
 import info from '../config';
 
 const formItemLayout = {
-    labelCol: { xs: { span: 24 }, sm: { span: 6 } },
-    wrapperCol: { xs: { span: 24 }, sm: { span: 12 } }
+  labelCol: { xs: { span: 24 }, sm: { span: 6 } },
+  wrapperCol: { xs: { span: 24 }, sm: { span: 12 } }
 };
-  const tailFormItemLayout = {
-    wrapperCol: { xs: { span: 24, offset: 0 }, sm: { span: 16, offset: 6 } },
+const tailFormItemLayout = {
+  wrapperCol: { xs: { span: 24, offset: 0 }, sm: { span: 16, offset: 6 } }
 };
 
 const nameRules = [
-    {required: true, message: 'Input name', whitespace: true }
+  { required: true, message: 'Input name', whitespace: true }
 ];
 
 class AddStreamer extends React.Component {
+  constructor (props) {
+    super(props);
+    this.onFinish = this.onFinish.bind(this);
+  }
 
-    constructor(props) {
-        super(props);
-        this.onFinish = this.onFinish.bind(this);
-    }
-
-    
     onFinish = (values) => {
-        const {...data } = values;
-        const url = info.url+'streamers/';
-        fetch(url, {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json", 
-            }        
-        })
+      const { ...data } = values;
+      const url = info.url + 'streamers/';
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
         .then(status)
         .then(json)
         .then(data => {
-            alert("Bj added")
-            //console.log(data);
+          alert('Bj added');
+          // console.log(data);
         })
-        .catch(error => {
-            alert("Adding bj failed");
-            //console.log(error);
-        });  
+        .catch(() => {
+          alert('Adding bj failed');
+        });
     };
 
-
-    render() {
-
-
-
-        return (
+    render () {
+      return (
         <>
         <Form {...formItemLayout} name="register" onFinish={this.onFinish} scrollToFirstError >
-            
+
             <Form.Item name="bj_id" label="Bj Id" rules={nameRules} >
                 <Input />
             </Form.Item>
-
 
             <Form.Item {...tailFormItemLayout}>
                 <Button type="primary" htmlType="submit">
@@ -66,7 +58,7 @@ class AddStreamer extends React.Component {
             </Form.Item>
         </Form>
         </>
-        );
+      );
     };
 };
 
