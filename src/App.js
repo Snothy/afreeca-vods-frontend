@@ -3,9 +3,9 @@ import { Layout } from 'antd';
 import './App.css';
 
 import SidebarNav from './components/SidebarNav';
-import Streamers from './components/streamers';
-import Vods from './components/vods';
-import Vod from './components/vod';
+import Favourites from './components/Favourites';
+import Vods from './components/Vods';
+import Vod from './components/Vod';
 import AddStreamer from './components/AddStreamer';
 import Login from './components/Login';
 import Live from './components/Live';
@@ -82,7 +82,7 @@ class App extends React.Component {
                         <Route path="/:id/live" children={<Live />} />
                         <Route path="/:id/:vodId" children={<Vod />} />
                         
-                        <Route path="/favourites" children={<Streamers />} />
+                        <Route path="/favourites" children={<Favourites />} />
                         <Route name="add" path="/add" children={<AddStreamer />} />
                         <Route name="add" path="/login" children={<Login />} />
                         <Route name="vods" path="/:id" children={<Vods />} />
