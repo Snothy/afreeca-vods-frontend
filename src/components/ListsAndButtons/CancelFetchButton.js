@@ -6,12 +6,11 @@ import LoginContext from '../../contexts/login';
 import info from '../../config';
 import PropTypes from 'prop-types';
 
-class FetchButton extends React.Component {
+class CancelFetchButton extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      fetchingList: [],
-      fetching: false,
+      cancelled: false,
       mounted: false,
       refreshed: false
     };
@@ -19,9 +18,9 @@ class FetchButton extends React.Component {
 
   static propTypes = {
     favourite: PropTypes.object,
-    fetching: PropTypes.bool,
+    cancelled: PropTypes.bool,
     refreshed: PropTypes.bool,
-    onFetch: PropTypes.func
+    onCancelFetch: PropTypes.func
   }
 
   static contextType = LoginContext;
@@ -30,22 +29,18 @@ class FetchButton extends React.Component {
     e.preventDefault();
     if (!this.state.mounted) return;
     if (!this.context.loggedIn) {
-      alert('You need to log in to use fetch');
+      alert('You need to log to cancel a fetch');
       return;
     }
     if (!this.props.refreshed) {
       alert('Wait for update of streamers');
       return;
     }
-    this.setState({ fetching: true });
-    this.props.onFetch(true);
-    let cookie = this.context.cookie;
-    cookie = { cookie: cookie };
+    this.setState({ cancelled: true });
 
-    const url = info.url + `streamers/${this.props.favourite.id}/fetch`;
+    const url = info.url + `streamers/${this.props.favourite.id}/cancelFetch`;
     fetch(url, {
       method: 'POST',
-      body: JSON.stringify(cookie),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -54,20 +49,15 @@ class FetchButton extends React.Component {
       .then(json)
       .then(data => {
         if (!this.state.mounted) return;
-        // if fetch was successful (completed)
+        // if fetch was cancelled
         if (data.success) {
           alert(data.message);
-          // if fetch hasnt completed (yet)
-        } else if (!data.success) {
-          // if still fetching
-          if (data.fetching) {
-            alert(data.message);
-            return;
-          } else {
-            alert(data.message);
-          }
+          this.props.onCancelFetch();
+        // if fetch couldnt be cancelled
+        } else {
+          alert(data.message);
         }
-        this.setState({ fetching: false });
+        this.setState({ cancelled: false });
       })
       .catch(err => {
         const error = errorHandler(err);
@@ -77,13 +67,13 @@ class FetchButton extends React.Component {
 
   componentDidMount () {
     this.setState({ mounted: true });
-    this.setState({ fetching: false });
+    this.setState({ cancelled: false });
   }
 
   componentDidUpdate (prevProps, prevState) {
     if (!this.state.mounted) return;
     if (prevProps !== this.props) {
-      this.setState({ fetching: this.props.fetching });
+      this.setState({ cancelled: this.props.favourite.cancelled });
       this.setState({ refreshed: this.props.refreshed });
     }
   }
@@ -92,15 +82,15 @@ class FetchButton extends React.Component {
     return (
           <button type="button"
           className={classNames('btn-basic blue1', { on: false })}
-          tip={'Listen for new VOD and add it'}
+          tip={'Cancel Fetch'}
           onClick={this.onClickFetch}
-          style = {{ position: 'relative', left: 1, float: 'left', zIndex: 1 }}>
-              {!this.state.fetching
-                ? <span>{'Fetch'}</span>
+          style = {{ position: 'relative', left: 1, float: 'right', zIndex: 1 }}>
+              {!this.state.cancelled
+                ? <span>{'Cancel'}</span>
                 : <span>...</span>}
           </button>
     );
   }
 }
 
-export default FetchButton;
+export default CancelFetchButton;

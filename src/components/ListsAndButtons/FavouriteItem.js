@@ -1,5 +1,5 @@
 import FetchButton from './FetchButton';
-// import RefreshIdButton from "./RefreshIdButton"
+import CancelFetchButton from './CancelFetchButton';
 import FavouriteRemoveButton from './FavouriteRemoveButton';
 import React from 'react';
 import fromNow from 'fromnow';
@@ -12,13 +12,16 @@ class FavouriteItem extends React.Component {
     this.state = {
       streamImg: '',
       hovering: 'none',
-      mounted: false
+      mounted: false,
+      fetching: false,
+      refreshed: false
     };
     this.myRef = React.createRef();
   }
 
   static propTypes = {
     favourite: PropTypes.object,
+    refreshed: PropTypes.bool,
     onStatusChange: PropTypes.func,
     onRemove: PropTypes.func
   }
@@ -43,8 +46,28 @@ class FavouriteItem extends React.Component {
     this.props.onRemove(bj_id);
   }
 
+  handleFetch = (value) => {
+    if (!this.state.mounted) return;
+    this.setState({ fetching: value });
+  }
+
+  handleCancelFetch = () => {
+    if (!this.state.mounted) return;
+    this.setState({ fetching: false });
+  }
+
   componentWillUnmount () {
     this.setState({ mounted: false });
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (!this.state.mounted) return;
+    if (prevProps !== this.props) {
+      this.setState({ fetching: this.props.favourite.fetching });
+    }
+    if (this.props.favourite.is_live && this.props.refreshed !== this.state.refreshed) {
+      this.setState({ refreshed: this.props.refreshed });
+    }
   }
 
   render () {
@@ -100,8 +123,14 @@ class FavouriteItem extends React.Component {
             </Link>
           </>}
 
-          {favourite.is_live ? <FetchButton favourite={favourite} className="btn-fav"/> : null}
-
+          {favourite.is_live
+            ? <>
+          <FetchButton refreshed = {this.state.refreshed} onFetch={this.handleFetch}
+          fetching={this.state.fetching} favourite={favourite} className="btn-fav"/>
+          <CancelFetchButton refreshed = {this.state.refreshed} onCancelFetch={this.handleCancelFetch}
+            favourite={favourite} className="btn-fav" />
+            </>
+            : null}
           </>
     );
   }

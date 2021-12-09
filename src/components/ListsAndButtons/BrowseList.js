@@ -23,13 +23,6 @@ class BrowseList extends React.Component {
   }
 
   componentDidUpdate () {
-    /*
-        if(!this.state.mounted) return;
-
-        if(this.state.streamers.length<this.props.streamers.length) {
-            this.setState({streamers: this.props.streamers});
-        }
-        */
   }
 
   handleGetMore = () => {

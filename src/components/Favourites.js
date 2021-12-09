@@ -10,7 +10,8 @@ class Favourites extends React.Component {
     this.state = {
       streamers: [],
       noneFound: false,
-      mounted: false
+      mounted: false,
+      refreshed: false
     };
   }
 
@@ -57,6 +58,7 @@ class Favourites extends React.Component {
             data.streamers[i].fetching = data.fetching[i].fetching;
           }
           this.setState({ streamers: data.streamers });
+          this.setState({ refreshed: true });
         }
       })
       .catch(err => {
@@ -115,7 +117,7 @@ class Favourites extends React.Component {
 
     return (
             < >
-                <FavouriteList streamers = {this.state.streamers} onStatusChange = {this.handleStatusChange} onRemove= {this.onRemove}/>
+                <FavouriteList refreshed = {this.state.refreshed} streamers = {this.state.streamers} onRemove= {this.onRemove}/>
             </>
     );
   }

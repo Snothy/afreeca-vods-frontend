@@ -62,11 +62,6 @@ class Browse extends React.Component {
           let currStreamers = this.state.streamers;
           currStreamers = currStreamers.concat(data);
           this.setState({ streamers: currStreamers });
-          // console.log('curr: ', this.state.streamers.length);
-          // console.log('new: ', data.length);
-          // console.log(this.state.streamers.length);
-          // console.log('concated: ', this.state.streamers.length);
-          // console.log(this.state.streamers[61]);
         })
         .catch(err => {
           console.log(err);
