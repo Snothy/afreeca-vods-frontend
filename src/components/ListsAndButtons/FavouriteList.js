@@ -61,7 +61,7 @@ class FavouriteList extends React.Component {
             {this.props.streamers.filter(streamer => !streamer.is_live).map(streamer => {
               return (
                   <li key={streamer.id}>
-                    <FavouriteItem favourite={streamer} onRemove ={this.onRemove}/>
+                    <FavouriteItem refreshed = {this.props.refreshed} favourite={streamer} onRemove ={this.onRemove}/>
                   </li>
               );
             })}

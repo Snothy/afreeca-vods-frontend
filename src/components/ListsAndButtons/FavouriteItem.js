@@ -65,7 +65,7 @@ class FavouriteItem extends React.Component {
     if (prevProps !== this.props) {
       this.setState({ fetching: this.props.favourite.fetching });
     }
-    if (this.props.favourite.is_live && this.props.refreshed !== this.state.refreshed) {
+    if (this.props.refreshed !== this.state.refreshed) {
       this.setState({ refreshed: this.props.refreshed });
     }
   }
@@ -85,8 +85,8 @@ class FavouriteItem extends React.Component {
 
     return (
           <>
+          <FavouriteRemoveButton refreshed = {this.props.refreshed} bj_id= {favourite.id} onRemove={this.onRemove} className="btn-fav" />
           <Link style={{ minHeight: '0' }} to={{ pathname: `/${favourite.id}/`, favourite: { favourite } }} className="wrap">
-          <FavouriteRemoveButton bj_id= {favourite.id} onRemove={this.onRemove} className="btn-fav" />
           <div className="thumb" style={{ backgroundImage: `url(${favourite.avatar_url})` }}></div>
           <div className="nick"><strong>{`${favourite.nick}`}</strong></div>
           <span className="id">{favourite.id}</span>

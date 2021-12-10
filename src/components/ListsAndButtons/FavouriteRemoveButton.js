@@ -14,10 +14,15 @@ class FavouriteRemoveButton extends React.Component {
 
   static propTypes = {
     bj_id: PropTypes.string,
+    refreshed: PropTypes.bool,
     onRemove: PropTypes.func
   }
 
   handleClickRemove = (e) => {
+    if (!this.props.refreshed) {
+      alert('Wait for update of streamers');
+      return;
+    }
     e.preventDefault();
     const url = info.url + `streamers/${this.props.bj_id}`;
     fetch(url, {
@@ -39,8 +44,11 @@ class FavouriteRemoveButton extends React.Component {
       });
   }
 
-  handleStatusChange = () => {
-    // const is_removed = this.state.removed;
+  componentDidUpdate (prevProps, prevState) {
+    if (!this.state.mounted) return;
+    if (prevProps !== this.props) {
+      this.setState({ refreshed: this.props.refreshed });
+    }
   }
 
   render () {
@@ -51,7 +59,7 @@ class FavouriteRemoveButton extends React.Component {
           tip={tip}
           onClick={this.handleClickRemove}
           onChange={this.handleStatusChange}
-          style = {{ position: 'relative', left: 1, bottom: 20, float: 'right', zIndex: 2 }}>
+          style = {{ position: 'relative', left: 1, float: 'right', zIndex: 2 }}>
               <span>X</span>
           </button>
     );

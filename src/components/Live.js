@@ -41,12 +41,9 @@ class Live extends React.Component {
         if (this.state.mounted) {
           this.setState({ data: data });
         }
-
-        // this.setState({playlist: data.playlist});
       })
       .catch(err => {
         console.log(err);
-        // error handling
       });
   }
 
@@ -55,6 +52,7 @@ class Live extends React.Component {
   }
 
   render () {
+    // const url = info.url + 'proxy/';
     if (this.state.data === null) {
       return (
         <p>Loading stream data</p>
@@ -68,7 +66,6 @@ class Live extends React.Component {
     return (
 
           <>
-
           <div style={{
             paddingLeft: 10,
             paddingTop: 20,
@@ -80,20 +77,15 @@ class Live extends React.Component {
             marginRight: '0'
           }}> {this.state.data.title} </p>
           <ReactPlayer
-          url={process.env.REACT_APP_heroku_proxy + this.state.data.live_url}
+          url={info.url + 'proxy/' + this.state.data.live_url}
           config={{
             file: {
-              attributes: {
-                crossOrigin: 'true'
-              },
-
               hlsOptions: {
                 initialLiveManifestSize: 4,
                 liveSyncDurationCount: 4,
                 nudgeMaxRetry: 10,
                 manifestLoadingMaxRetry: 5
               }
-
             }
           }}
           playing={this.state.playing}
