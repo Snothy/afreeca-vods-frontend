@@ -2,19 +2,59 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import LoginContext from '../../contexts/login';
+// import info from '../../config';
 
 class BrowseItem extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
+      avatarImg: new Image(),
+      thumbnailImg: new Image()
     };
   }
+
+  static contextType = LoginContext;
 
   static propTypes = {
     streamer: PropTypes.object
   }
 
   componentDidMount () {
+    const streamer = this.props.streamer;
+
+    // Fetch avatar image
+    fetch(`https://stimg.afreecatv.com/LOGO/${streamer.user_id.substring(0, 2)}/${streamer.user_id}/${streamer.user_id}.jpg`, {
+      headers: {
+        Cookie: this.context.cookie
+      }
+    })
+      .then(res => res.blob())
+      .then(blob => {
+        // avatarImg.src = URL.createObjectURL(blob);
+        const avatarImg = this.state.avatarImg;
+        avatarImg.src = URL.createObjectURL(blob);
+        this.setState({ avatarImg: avatarImg });
+      })
+      .catch(() => {
+        // err if img failed to load
+      });
+
+    // Fetch thumbnail image
+    fetch(streamer.broad_thumb, {
+      headers: {
+        Cookie: this.context.cookie
+      }
+    })
+      .then(res => res.blob())
+      .then(blob => {
+        const thumbnailImg = this.state.thumbnailImg;
+        thumbnailImg.src = URL.createObjectURL(blob);
+        this.setState({ thumbnailImg: thumbnailImg });
+      })
+      .catch(() => {
+        // err if img failed to load
+      });
   }
 
   render () {
@@ -28,13 +68,14 @@ class BrowseItem extends React.Component {
 
             <div className="thumbs-box">
                 <Link to={{ pathname: `/${streamer.user_id}/live` }}>
-                    <img src={streamer.broad_thumb} alt="" loading="lazy" />
+                    <img src={this.state.thumbnailImg.src} alt="" loading="lazy" />
                 </Link>
 
             </div>
 
             <div className="cBox-info">
-                <a href="/#" className="thumb" target="_blank"><img src={`https://stimg.afreecatv.com/LOGO/${streamer.user_id.substring(0, 2)}/${streamer.user_id}/${streamer.user_id}.jpg`} alt=""/></a>
+                <a href="/#" className="thumb" target="_blank"><img
+                src={this.state.avatarImg.src} alt=""/></a>
                 <h3 >
                     <Link to={{ pathname: `/${streamer.user_id}/live` }} style={{ color: 'black' }}>
                         {title}

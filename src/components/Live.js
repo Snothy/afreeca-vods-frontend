@@ -58,9 +58,9 @@ class Live extends React.Component {
         <p>Loading stream data</p>
       );
     }
-    if (this.state.data.code !== 1) {
+    if (!this.state.data.live) {
       return (
-        <p>Please log in to access livestream. Probably 19+</p>
+        <p>Not live or 19+. Please log in and try again.</p>
       );
     }
     return (
@@ -84,7 +84,16 @@ class Live extends React.Component {
                 initialLiveManifestSize: 4,
                 liveSyncDurationCount: 4,
                 nudgeMaxRetry: 10,
-                manifestLoadingMaxRetry: 5
+                manifestLoadingMaxRetry: 5,
+                xhrSetup: function (xhr, url) {
+                  // Need to use proxy to fetch the playlist
+                  // if (url.includes('?')) return;
+                  // Fetching the segment URL from afreeca is much faster
+                  // Also blocked by CORS, so still needs a proxy
+                  // url = url.split('/');
+                  // url = url.splice(5).join('/');
+                  // xhr.open('GET', url, true);
+                }
               }
             }
           }}

@@ -16,7 +16,7 @@ class FetchXVodsButton extends React.Component {
   }
 
   static propTypes = {
-    bj_id: PropTypes.object,
+    bj_id: PropTypes.string,
     handleFetchVods: PropTypes.func
   }
 
@@ -30,13 +30,16 @@ class FetchXVodsButton extends React.Component {
     e.preventDefault();
     this.setState({ refreshing: true });
     this.setState({ tip: '...' });
-    let cookie = this.context.cookie;
-    cookie = { cookie: cookie };
+    const cookie = this.context.cookie;
+    const body = {
+      cookie: cookie,
+      num: 40 // hardcoded for now, user input later
+    };
 
-    const url = info.url + `streamers/${this.props.bj_id}/fetchVods`;
+    const url = info.url + `streamers/${this.props.bj_id}/fetchVodsDb`;
     fetch(url, {
       method: 'POST',
-      body: JSON.stringify(cookie),
+      body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -48,8 +51,12 @@ class FetchXVodsButton extends React.Component {
         this.setState({ tip: 'Fetch vods' });
         this.setState({ refreshing: false });
 
-        // pass vods data onto parent component (vods.js) for real-time state update
-        this.props.handleFetchVods(data);
+        // if successful pass vods data onto parent component (vods.js) for real-time state update
+        if (data.success) {
+          this.props.handleFetchVods(data.vods);
+        } else {
+          alert(data.message);
+        }
       })
       .catch(() => {
         if (!this.state.mounted) return;

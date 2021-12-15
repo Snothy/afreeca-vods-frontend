@@ -50,8 +50,8 @@ class Login extends React.Component {
         if (data.login === true) {
           let index, cookie;
           let cookieString = '';
-          for (let i = 0; i < data.headers['set-cookie'].length; i++) {
-            cookie = data.headers['set-cookie'][i];
+          for (let i = 0; i < data.cookie.length; i++) {
+            cookie = data.cookie[i];
             index = cookie.indexOf(';');
             cookie = cookie.slice(0, index + 1);
             if (i === 0) {

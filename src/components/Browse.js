@@ -88,7 +88,7 @@ class Browse extends React.Component {
       if (!this.state.streamers.length) {
         return (
             <>
-            <h2 >Loading streamers..</h2>
+            <h2 >Loading streams..</h2>
             </>
         );
       }

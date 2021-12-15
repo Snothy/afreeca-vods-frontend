@@ -54,9 +54,6 @@ class Favourites extends React.Component {
       .then(json)
       .then(data => {
         if (this.state.mounted) {
-          for (let i = 0; i < data.streamers.length; i++) {
-            data.streamers[i].fetching = data.fetching[i].fetching;
-          }
           this.setState({ streamers: data.streamers });
           this.setState({ refreshed: true });
         }
