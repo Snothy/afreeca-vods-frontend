@@ -33,10 +33,11 @@ class FetchXVodsButton extends React.Component {
     const cookie = this.context.cookie;
     const body = {
       cookie: cookie,
-      num: 40 // hardcoded for now, user input later
+      num: 40, // hardcoded for now, user input later
+      addDb: true
     };
 
-    const url = info.url + `streamers/${this.props.bj_id}/fetchVodsDb`;
+    const url = info.url + `streamers/${this.props.bj_id}/fetchVods`;
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(body),

@@ -1,7 +1,7 @@
 import VodItem from './VodItem';
 import React, { Fragment } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import FetchXVodsButton from './FetchXVodsButton';
+// import FetchXVodsButton from './FetchXVodsButton';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
@@ -55,11 +55,10 @@ class VodList extends React.Component {
           </>
       );
     }
-    const bj_id = this.props.match.params.id;
+    // const bj_id = this.props.match.params.id;
     if (this.state.noneFound === true) {
       return (
           <>
-          <FetchXVodsButton bj_id ={bj_id} handleFetchVods={this.handleFetchVods} className="btn-fav" />
           <h2>No vods found</h2>
           </>
       );
@@ -69,7 +68,6 @@ class VodList extends React.Component {
     if (this.props.vods.length > 0) {
       return (
               <>
-              <FetchXVodsButton bj_id ={bj_id} handleFetchVods={this.handleFetchVods} className="btn-fav" />
               <Fragment>
 
               <div style={{
@@ -114,5 +112,5 @@ class VodList extends React.Component {
     }
   }
 }
-
+// <FetchXVodsButton bj_id ={bj_id} handleFetchVods={this.handleFetchVods} className="btn-fav" />
 export default withRouter(VodList);

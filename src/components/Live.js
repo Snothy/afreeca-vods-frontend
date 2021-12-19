@@ -85,6 +85,7 @@ class Live extends React.Component {
                 liveSyncDurationCount: 4,
                 nudgeMaxRetry: 10,
                 manifestLoadingMaxRetry: 5,
+                manifestLoadingTimeOut: 20000,
                 xhrSetup: function (xhr, url) {
                   // Need to use proxy to fetch the playlist
                   // if (url.includes('?')) return;
