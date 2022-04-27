@@ -2,8 +2,7 @@
 
 ## About
 React application with custom class based components as a frontend for https://github.com/Snothy/afreeca-vods-backend. Most important documentation is present on that repo.</br> 
-Live preview available at: https://afreeca-vods-frontend.vercel.app/. 
-Turned off both backends due to some people abusing it & collecting some weird vods :)</br> </br>
+Live preview available at: https://afreeca-vods-frontend.vercel.app/. (turned off due to people using it to collect weird vods)</br> </br>
 !!!!DISCLAIMER </br>
 MOST of the styling has been done using AfreecaTVs existing css files. I take no credit for any of it. I prefer to focus on the functionality aspect of an application when working on personal projects, so I decided to use their existing styles. Plus I fancy their css.
 
